@@ -3,20 +3,26 @@ import { BadRequest } from '../utils/Errors'
 
 class NotesService {
   async getAll(query = {}) {
-    const note = await dbContext.Notes.find(query).populate('creator', 'name picture').populate('bug', 'title description closed closedDate')
+    const note = await dbContext.Notes.find(query).populate('creator', 'name picture')
     return note
   }
 
   async getAllNotesByBugId(id) {
-    const note = await dbContext.Notes.findById(id).populate('creator', 'name picture').populate('bug', 'title description closed closedDate')
-    if (!note) {
-      throw new BadRequest('Invalid Id')
+    try {
+      const bug = await dbContext.Bugs.findById(id)
+      if (!bug) {
+        throw new BadRequest('Bug not found')
+      } else {
+        const notes = await dbContext.Notes.find()
+        return notes.filter(n => n.bug == id)
+      }
+    } catch (error) {
+      throw new BadRequest(error.message)
     }
-    return note
   }
 
   async getById(id) {
-    const note = await dbContext.Notes.findById(id).populate('creator', 'name picture').populate('bug', 'title description closed closedDate')
+    const note = await dbContext.Notes.findById(id).populate('creator', 'name picture')
     if (!note) {
       throw new BadRequest('Invalid Id')
     }
@@ -25,7 +31,7 @@ class NotesService {
 
   async create(body) {
     const note = await dbContext.Notes.create(body)
-    return await dbContext.Notes.findById(note._id).populate('creator', 'name picture').populate('bug', 'title description closed closedDate')
+    return await dbContext.Notes.findById(note._id).populate('creator', 'name picture')
   }
 
   async edit(body) {

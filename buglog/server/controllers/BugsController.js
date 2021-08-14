@@ -40,6 +40,7 @@ export class BugsController extends BaseController {
    */
   async getById(req, res, next) {
     try {
+      // @ts-ignore
       req.body.creatorId = req.userInfo.id
       const bug = await bugsService.getById(req.params.id)
       res.send(bug)
@@ -50,7 +51,6 @@ export class BugsController extends BaseController {
 
   async getAllNotesByBugId(req, res, next) {
     try {
-      req.body.creatorId = req.userInfo.id
       const bug = await notesService.getAllNotesByBugId(req.params.id)
       res.send(bug)
     } catch (error) {
@@ -67,6 +67,7 @@ export class BugsController extends BaseController {
   async create(req, res, next) {
     try {
       // Do not trust the client
+      // @ts-ignore
       req.body.creatorId = req.userInfo.id
       const bug = await bugsService.create(req.body)
       res.send(bug)
