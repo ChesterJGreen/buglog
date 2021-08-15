@@ -1,7 +1,7 @@
 <template>
   <div class="bug-component col-md-12 bg-light px-5">
     <div class="row">
-      <div class="col-md-12 px-4 mt-5">
+      <div class="col-md-12 mt-5">
         <div class="row">
           <div class="col-md-1 offset-1 py-3">
             <h3>
@@ -10,12 +10,13 @@
           </div>
 
           <div class="col-md-3 offset-7 py-3">
-            <Button class="btn btn-info shadow rounded" @click="createBugModal" type="button" data-target="#create-bug-modal" data-toggle="modal">
+            <button class="btn btn-info shadow rounded" type="button" data-target="#create-bug-modal" data-toggle="modal">
               Submit Log
-            </Button>
+            </button>
+            <CreateBugModal />
           </div>
           <div class="col-md-12 bg-warning shadow p-2">
-            <div class="row">
+            <div class="row m-0">
               <div class="col-md-3 col-sm">
                 Title
               </div>
@@ -31,12 +32,8 @@
                   <label class="custom-control-label" for="customSwitch1">Closed/All</label>
                 </div>
               </div>
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-12">
-                    <BugCard v-for="b in bugs" :key="b.id" :bug="bug" />
-                  </div>
-                </div>
+              <div class="col-md-12 p-0">
+                <BugCard v-for="b in bugs" :key="b.id" :bug="b" />
               </div>
             </div>
           </div>
@@ -55,12 +52,7 @@ import CreateBugModal from '../components/CreateBugModal.vue'
 
 export default {
   name: 'BugComponent',
-  props: {
-    bug: {
-      type: Object,
-      required: true
-    }
-  },
+
   setup() {
     onMounted(async() => {
       try {
@@ -82,7 +74,9 @@ export default {
     }
   },
 
-  components: { CreateBugModal }
+  components: {
+    // CreateBugModal
+  }
 }
 </script>
 

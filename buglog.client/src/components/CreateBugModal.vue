@@ -16,7 +16,7 @@
             <input
               class="form-control"
               type="text"
-              v-model="state.rawBug.name"
+              v-model="state.rawBug.title"
               id="name"
               placeholder="Name Bug..."
             >
@@ -42,12 +42,40 @@
 </template>
 
 <script>
+import { reactive } from '@vue/reactivity'
+import Pop from '../utils/Notifier'
+import { bugsService } from '../services/BugsService'
+import { computed } from '@vue/runtime-core'
+import { AppState } from '../AppState'
+import { useRouter } from 'vue-router'
 export default {
   name: 'CreateBugModal',
   setup() {
-    return {}
+    const router = useRouter()
+    const state = reactive({
+      rawBug: {}
+    })
+    return {
+      state,
+      router,
+      account: computed(() => AppState.account),
+      bugs: computed(() => AppState.bugs),
+      async createBug() {
+        try {
+          console.log(state.rawBug)
+          const newBug = await bugsService.createBug(state.rawBug)
+          state.rawBug = {}
+          Pop.toast('Bug Created', 'success')
+          router.push({ name: 'BugFocusPage', params: { id: newBug.id } })
+        } catch (error) {
+          Pop.toast(error, 'error')
+        }
+      }
+    }
   },
-  components: {}
+  components: {
+
+  }
 }
 </script>
 

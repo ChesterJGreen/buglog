@@ -9,7 +9,13 @@ class BugsService {
     AppState.bugs = res.data
   }
 
+  async getBugById(id) {
+    const res = await api.get(`api/bugs/${id}`)
+    AppState.bugs = res.data
+  }
+
   async createBug(rawBug) {
+    console.log('in service ' + rawBug)
     const res = await api.post('api/bugs', rawBug)
     logger.log(res.data)
     AppState.bugs = [res.data, ...AppState.bugs]

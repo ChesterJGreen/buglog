@@ -5,7 +5,6 @@ import { router } from '../router'
 import { accountService } from './AccountService'
 import { api } from './AxiosService'
 import { bugsService } from './BugsService'
-import { socketService } from './SocketService'
 
 export const AuthService = initialize({
   domain,
@@ -26,9 +25,8 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function() {
   api.interceptors.request.use(refreshAuthToken)
   AppState.user = AuthService.user
   await accountService.getAccount()
-  socketService.authenticate(AuthService.bearer)
   // NOTE if there is something you want to do once the user is authenticated, place that here
-  await bugsService.getAll()
+  // await bugsService.getAll()
 })
 
 async function refreshAuthToken(config) {
@@ -41,7 +39,6 @@ async function refreshAuthToken(config) {
   } else if (needsRefresh) {
     await AuthService.getTokenSilently()
     api.defaults.headers.authorization = AuthService.bearer
-    socketService.authenticate(AuthService.bearer)
   }
   return config
 }
