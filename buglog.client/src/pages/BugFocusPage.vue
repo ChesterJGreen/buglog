@@ -1,48 +1,77 @@
 <template>
-  <div class="bug-focus-page">
-    <div class="col-md-12 bg-warning shadow p-2">
-      <div class="row">
-        <div class="col-md-3 col-sm">
-          {{ bug.id }}
-        </div>
-        <div class="col-md-3 col-sm">
-          <img :src="bug.creator.picture" height="25">
-          {{ bug.creator.name }}
-        </div>
-        <div class="col-md-3 col-sm">
-          {{ bug.updatedAt }}
+  <div class="col-md-12 shadow p-2">
+    <div class="row">
+      <div class="col-md-12 px-5 pt-5">
+        <div class="row" id="bug-detail-change">
+          <div v-if="loading" class="loading">
+            Loading...
+          </div>
+          <div v-if="error" class="error">
+            {{ error }}
+          </div>
+          <div v-if="bug" class="content">
+            <BugDetails :bug="bug" />
+          </div>
         </div>
       </div>
     </div>
+    <!-- <div class="row">
+      <NotesThread :note="note" />
+    </div> -->
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, reactive } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { useRoute } from 'vue-router'
 import { bugsService } from '../services/BugsService'
 import Pop from '../utils/Notifier'
+import { logger } from '../utils/Logger'
 export default {
   name: 'BugFocusPage',
-  setup() {
-    const route = useRoute()
-    onMounted(async() => {
-      try {
-        await bugsService.getBugById(route.params.id)
-        console.log('onmounted bug' + route.params.id)
-      } catch (error) {
-        Pop.toast('FAILED TO LOAD BUG ' + error, 'error')
-      }
-    })
+  data() {
     return {
-      bugs: computed(() => AppState.bugs.filter(b => b.id === route.params.id))
+      loading: false,
+      bug: null,
+      error: null
+    }
+  },
+  created() {
+    this.fetchData()
+  },
+  watch: {
+    $route: 'fetchData'
+  },
+  methods: {
+    async fetchData() {
+      this.error = this.bug = null
+      this.loading = true
+      const fetchedId = this.$route.params.id
+      try {
+        await bugsService.getById(fetchedId)
+        this.bug = computed(() => AppState.bug)
+      } catch (error) {
+        this.error = error.toString()
+      }
+
+      if (this.$route.params.id !== fetchedId) return
+      this.loading = false
+    }
+  },
+  setup() {
+    return {
+
+      // updatedDate: computed(() => {
+      //   const d = new Date(props.bug.updatedAt)
+      //   return new Intl.DateTimeFormat('en-US').format(d)
+      // })
     }
   },
   components: {}
 }
 </script>
 
-<style lang="scss" scoped>
+    BugDetails<style lang="scss" scoped>
 
 </style>

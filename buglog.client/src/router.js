@@ -23,7 +23,7 @@ const routes = [
     beforeEnter: authGuard
   },
   {
-    path: '/api/bugs/:id',
+    path: '/bugs/:id',
     name: 'BugFocusPage',
     component: loadPage('BugFocusPage')
   }

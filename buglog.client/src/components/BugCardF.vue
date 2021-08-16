@@ -1,7 +1,7 @@
 <template>
   <div class="row m-0 bg-light border-bottom">
     <div class="col-md-12 p-0 bg-blue lighten-40">
-      <router-link class="d-flex" :to="{name: 'BugFocusPage', params: {id: bug.id}}">
+      <router-link class="d-flex" :to="{name: 'BugFocusPage', params: {id: bug.id}}" @click.stop="">
         <div class="col-md-3 ">
           <span>
             {{ bug.title }}

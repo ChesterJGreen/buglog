@@ -1,6 +1,6 @@
 <template>
-  <div class="row m-0 bg-light border-bottom">
-    <div class="col-md-12 p-0 bg-blue lighten-40">
+  <div class="row m-0 bg-light border-bottom border-secondary">
+    <div class="col-md-12 p-0 bg-blue lighten-40 text-wrap" style="width: 6rem;">
       <router-link :to="{ name: 'BugFocusPage', params: {id: bug.id}}" class="creator d-flex">
         <div class="col-md-3 ">
           <span>
@@ -43,7 +43,7 @@ export default {
       bugs: computed(() => AppState.bugs),
       account: computed(() => AppState.account),
       updatedDate: computed(() => {
-        const d = new Date.UTC(props.bug.updatedAt)
+        const d = new Date(props.bug.updatedAt)
         return new Intl.DateTimeFormat('en-US').format(d)
       })
     }

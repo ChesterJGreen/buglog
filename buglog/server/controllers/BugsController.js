@@ -41,7 +41,7 @@ export class BugsController extends BaseController {
   async getById(req, res, next) {
     try {
       // @ts-ignore
-      req.body.creatorId = req.userInfo.id
+
       const bug = await bugsService.getById(req.params.id)
       res.send(bug)
     } catch (error) {
