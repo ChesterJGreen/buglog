@@ -13,8 +13,8 @@ class NotesService {
       if (!bug) {
         throw new BadRequest('Bug not found')
       } else {
-        const notes = await dbContext.Notes.find()
-        return notes.filter(n => n.bug == id)
+        const notes = await dbContext.Notes.find({}).populate('creator', 'name picture')
+        return notes.filter(n => n.bugId == id)
       }
     } catch (error) {
       throw new BadRequest(error.message)

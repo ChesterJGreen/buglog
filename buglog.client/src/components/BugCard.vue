@@ -1,6 +1,6 @@
 <template>
   <div class="row m-0 bg-light border-bottom border-secondary">
-    <div class="col-md-12 p-0 bg-blue lighten-40 text-wrap" style="width: 6rem;">
+    <div class="col-md-12 m-0 p-2 bg-blue lighten-40 text-wrap" style="width: 6rem;">
       <router-link :to="{ name: 'BugFocusPage', params: {id: bug.id}}" class="creator d-flex">
         <div class="col-md-3 ">
           <span>

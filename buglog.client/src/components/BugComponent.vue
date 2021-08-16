@@ -28,16 +28,15 @@
               </div>
               <div class="col-md-3 col-sm pb-2">
                 <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input outline bg-dark" id="cswitch">
+                  <input type="checkbox" class="custom-control-input  bg-dark" id="cswitch" @click="fSwitch">
                   <label class="custom-control-label" for="customSwitch1">Closed---All</label>
                 </div>
               </div>
               <div class="col-md-12 p-0 border-primary">
-                <!-- v-if="state.fSwitch=true"> -->
-                <BugCard v-for="b in bugs" :key="b.id" :bug="b" />
+                <BugCard v-for="b in state.bugs" :key="b.id" :bug="b" />
               </div>
               <!-- <div class="col-md-12 p-0" v-else>
-                <BugCardF v-for="b in bugs" :key="b.closed" :bug="b" />
+                <BugCardF v-for="b in state.bugs" :key="b.closed" :bug="b" />
               </div> -->
             </div>
           </div>
@@ -53,6 +52,7 @@ import { AppState } from '../AppState'
 import Pop from '../utils/Notifier'
 import { bugsService } from '../services/BugsService'
 import CreateBugModal from '../components/CreateBugModal.vue'
+import { logger } from '../utils/Logger'
 
 export default {
   name: 'BugComponent',
@@ -67,27 +67,29 @@ export default {
       }
     })
     const state = reactive({
-      fSwitch: false
+      fSwitch: false,
+      bugs: computed(() => AppState.bugs)
     })
     return {
       state,
       bugs: computed(() => AppState.bugs),
-      // async fSwitch() {
-      // await if(state.fSwitch == true){
-      //   return (bugs: computed(() => AppState.bugs.filter(b => b.closed = false)))
-      // },
-      async createBug() {
-        try {
-          await bugsService.createBug()
-        } catch (error) {
-          Pop.toast("Couldn't create Bug " + error, 'error')
+      async fSwitch() {
+        if (state.fSwitch == true) {
+          state.bugs = this.bugs.filter(b => b.closed == false)
+        } else {
+          state.bugs = this.bugs
         }
+        state.fSwitch = !state.fSwitch
+        logger.log(state.fSwitch)
+        logger.log(AppState.bugs)
+        logger.log(state.bugs)
       }
+
     }
   },
 
   components: {
-    // CreateBugModal
+    CreateBugModal
   }
 }
 </script>

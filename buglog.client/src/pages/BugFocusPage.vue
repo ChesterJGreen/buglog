@@ -9,27 +9,34 @@
           <div v-if="error" class="error">
             {{ error }}
           </div>
-          <div v-if="bug" class="content">
+          <div v-if="bug" class="content col-md-12 border borderb">
             <BugDetails :bug="bug" />
           </div>
         </div>
       </div>
     </div>
-    <!-- <div class="row">
-      <NotesThread :note="note" />
-    </div> -->
+    <div class="row m-0 p-0">
+      <div v-if="bug" class="content col-md-12 border borderb">
+        <NotesThread :bug="bug" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted, reactive } from '@vue/runtime-core'
+import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
+
 import { bugsService } from '../services/BugsService'
-import Pop from '../utils/Notifier'
-import { logger } from '../utils/Logger'
+
 export default {
   name: 'BugFocusPage',
+  // props: {
+  //   note: {
+  //     type: Object,
+  //     required: true
+  //   }
+  // },
   data() {
     return {
       loading: false,
@@ -62,16 +69,15 @@ export default {
   setup() {
     return {
 
-      // updatedDate: computed(() => {
-      //   const d = new Date(props.bug.updatedAt)
-      //   return new Intl.DateTimeFormat('en-US').format(d)
-      // })
     }
   },
   components: {}
 }
 </script>
 
-    BugDetails<style lang="scss" scoped>
+<style lang="scss" scoped>
+.borderb {
+  border: 10px, solid, blueviolet
+}
 
 </style>

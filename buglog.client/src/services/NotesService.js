@@ -6,6 +6,7 @@ class NotesService {
   async getAllNotesByBugId(id) {
     const res = await api.get(`api/bugs/${id}/notes`)
     AppState.notes = res.data
+    logger.log(res.data)
     return res.data
   }
 
@@ -19,6 +20,10 @@ class NotesService {
     } catch (error) {
       logger.error(error)
     }
+  }
+
+  async destroyNote(id) {
+
   }
 }
 
