@@ -1,7 +1,7 @@
 <template>
   <div class="row m-0 bg-light border-bottom">
     <div class="col-md-12 p-0 bg-blue lighten-40">
-      <router-link :to="{ name: 'BugFocusPage', params: {id: bug.id}}" class="creator d-flex">
+      <router-link class="d-flex" :to="{name: 'BugFocusPage', params: {id: bug.id}}">
         <div class="col-md-3 ">
           <span>
             {{ bug.title }}
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-3 ">
           <span>
-            {{ updatedDate }}
+            {{ updateDate }}
           </span>
         </div>
         <div class="col-md-3 ">
@@ -24,6 +24,22 @@
         </div>
       </router-link>
     </div>
+    <!-- <div class="col-md-12 p-0 bg-yellow lighten-40">
+      <router-link class="d-flex" :to="{name: 'BugFocusPage', params: {id: bug.id}}" :bug="bug">
+        <div class="col-md-3 ">
+          {{ bug.title }}
+        </div>
+        <div class="col-md-3 ">
+          {{ bug.creator.name }}
+        </div>
+        <div class="col-md-3 ">
+          {{ updateDate }}
+        </div>
+        <div class="col-md-3 ">
+          {{ bug.closed }}
+        </div>
+      </router-link>
+    </div> -->
   </div>
 </template>
 
@@ -31,7 +47,7 @@
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 export default {
-  name: 'BugCard',
+  name: 'BugCardF',
   props: {
     bug: {
       type: Object,
@@ -40,9 +56,9 @@ export default {
   },
   setup(props) {
     return {
-      bugs: computed(() => AppState.bugs),
+      bugs: computed(() => AppState.bugs.filter(b => b.closed === true)),
       account: computed(() => AppState.account),
-      updatedDate: computed(() => {
+      updateDate: computed(() => {
         const d = new Date.UTC(props.bug.updatedAt)
         return new Intl.DateTimeFormat('en-US').format(d)
       })
@@ -56,9 +72,5 @@ export default {
 a {
   color: inherit;
   text-decoration: inherit;
-}
-.creator{
-  height: 3em;
-  color: #0f0bee
 }
 </style>
