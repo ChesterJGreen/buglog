@@ -54,7 +54,7 @@ import { bugsService } from '../services/BugsService'
 import Swal from 'sweetalert2'
 import Pop from '../utils/Notifier'
 import { useRoute } from 'vue-router'
-import { logger } from '../utils/Logger'
+
 export default {
   name: 'Component',
   props: {
@@ -86,11 +86,6 @@ export default {
             confirmButtonText: 'Yes, close it!'
           }).then(async(result) => {
             if (result.isConfirmed) {
-              logger.log('object ', bug)
-              logger.log('creator ', bug.creatorId)
-              logger.log('user', this.user.id)
-              logger.log('account', this.account.id)
-
               await bugsService.destroyBug(bug)
               Swal.fire(
                 'Closed!',

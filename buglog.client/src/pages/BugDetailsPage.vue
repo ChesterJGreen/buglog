@@ -24,8 +24,6 @@ import { bugsService } from '../services/BugsService'
 import { useRoute } from 'vue-router'
 import Pop from '../utils/Notifier'
 import { notesService } from '../services/NotesService'
-import { logger } from '../utils/Logger'
-import $ from 'jquery'
 
 export default {
   name: 'BugDetailsPage',
@@ -35,7 +33,6 @@ export default {
       try {
         await bugsService.getById(route.params.id)
         await notesService.getAllNotesByBugId(route.params.id)
-        logger.log('onmounted bug' + route.params.id)
       } catch (error) {
         Pop.toast('FAILED TO LOAD BUG ' + error, 'error')
       }

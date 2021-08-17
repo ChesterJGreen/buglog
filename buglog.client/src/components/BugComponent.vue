@@ -75,7 +75,6 @@ import { AppState } from '../AppState'
 import Pop from '../utils/Notifier'
 import { bugsService } from '../services/BugsService'
 import CreateBugModal from '../components/CreateBugModal.vue'
-import { logger } from '../utils/Logger'
 
 export default {
   name: 'BugComponent',
@@ -119,9 +118,6 @@ export default {
           state.bugs = this.bugs
         }
         state.fSwitch = !state.fSwitch
-        logger.log(state.fSwitch)
-        logger.log(AppState.bugs)
-        logger.log(state.bugs)
       }
 
     }

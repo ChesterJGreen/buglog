@@ -41,7 +41,6 @@ import { AppState } from '../AppState'
 import Swal from 'sweetalert2'
 import { notesService } from '../services/NotesService'
 import Pop from '../utils/Notifier'
-import { logger } from '../utils/Logger'
 
 export default {
   name: 'NotesThread',
@@ -54,17 +53,13 @@ export default {
   setup(props) {
     onMounted(async() => {
       try {
-        logger.log('onMounted')
-        logger.log(props.bug.id)
         await notesService.getAllNotesByBugId(props.bug.id)
-        logger.log(AppState.notes)
       } catch (error) {
         Pop.toast(error, 'error')
       }
     })
     return {
       notes: computed(() => {
-        logger.log(AppState.notes)
         return AppState.notes
       }),
       account: computed(() => AppState.account),
