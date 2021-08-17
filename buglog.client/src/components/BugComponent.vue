@@ -10,9 +10,11 @@
           </div>
 
           <div class="col-md-3 offset-7 py-3">
-            <button class="btn btn-info shadow rounded" type="button" data-target="#create-bug-modal" data-toggle="modal">
-              Submit Log
-            </button>
+            <span v-if="account.id">
+              <button class="btn btn-info shadow rounded" type="button" data-target="#create-bug-modal" data-toggle="modal">
+                Submit Log
+              </button>
+            </span>
             <CreateBugModal />
           </div>
           <div class="col-md-12 bg-warning shadow p-2 mb-3">
@@ -26,14 +28,35 @@
               <div class="col-md-3 col-sm pb-2">
                 Last Updated
               </div>
-              <div class="col-md-3 col-sm pb-2">
-                <div class="custom-control custom-switch">
-                  <input type="checkbox" class="custom-control-input  bg-dark" id="cswitch" @click="fSwitch">
-                  <label class="custom-control-label" for="customSwitch1">Closed---All</label>
+              <div class="col-md-3 col-sm mb-2">
+                <div v-if="state.fSwitch===true" class="custom-control custom-switch">
+                  <button type="button"
+                          checked
+                          data-toggle="toggle"
+                          class="bg-dark "
+                          id="cswitch"
+                          @click="state.fSwitch=!state.fSwitch"
+                  >
+                    Filter out Closed
+                  </button>
+                </div>
+                <div v-else class="custom-control custom-switch">
+                  <button type="button"
+                          checked
+                          data-toggle="toggle"
+                          class="bg-dark "
+                          id="cswitch"
+                          @click="state.fSwitch=!state.fSwitch"
+                  >
+                    No Filter
+                  </button>
                 </div>
               </div>
-              <div class="col-md-12 p-0 border-primary">
+              <div v-if="state.fSwitch===true" class="col-md-12 p-0 border-primary">
                 <BugCard v-for="b in state.bugs" :key="b.id" :bug="b" />
+              </div>
+              <div v-else class="col-md-12 p-0 border-primary">
+                <BugCard v-for="b in state.filteredBugs" :key="b.id" :bug="b" />
               </div>
               <!-- <div class="col-md-12 p-0" v-else>
                 <BugCardF v-for="b in state.bugs" :key="b.closed" :bug="b" />
@@ -66,16 +89,32 @@ export default {
         Pop.toast(error, 'error')
       }
     })
+
     const state = reactive({
       fSwitch: false,
-      bugs: computed(() => AppState.bugs)
+      bugs: computed(() => AppState.bugs),
+      filteredBugs: computed(() => AppState.bugs.filter(b => b.closed === false))
     })
     return {
       state,
-      bugs: computed(() => AppState.bugs),
+      computed: {
+        sortedClosed() {
+          this.bugs = this.bugs.sort((a, b) => {
+            if (a.closed && !b.closed) {
+              return -1
+            } else if (!a.closed && b.closed) {
+              return 1
+            } else {
+              return 0
+            }
+          })
+        }
+      },
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
       async fSwitch() {
-        if (state.fSwitch == true) {
-          state.bugs = this.bugs.filter(b => b.closed == false)
+        if (state.fSwitch === true) {
+          state.bugs = this.bugs.filter(b => b.closed === false)
         } else {
           state.bugs = this.bugs
         }
