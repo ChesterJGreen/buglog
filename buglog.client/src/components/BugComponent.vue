@@ -88,7 +88,7 @@ export default {
     })
 
     const state = reactive({
-      fSwitch: false,
+      fSwitch: true,
       bugs: computed(() => AppState.bugs),
       filteredBugs: computed(() => AppState.bugs.filter(b => b.closed === false))
     })
