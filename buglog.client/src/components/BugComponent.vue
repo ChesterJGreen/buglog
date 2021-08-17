@@ -84,7 +84,6 @@ export default {
       try {
         await bugsService.getAll()
       } catch (error) {
-        console.log(error)
         Pop.toast(error, 'error')
       }
     })

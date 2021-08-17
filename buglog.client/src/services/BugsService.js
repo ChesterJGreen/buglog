@@ -29,8 +29,6 @@ class BugsService {
   }
 
   async destroyBug(bug) {
-    console.log('in the service, deleting')
-    console.log(bug.id)
     const res = await api.delete('api/bugs/' + bug.id)
     AppState.bug = res.data
     this.getById(bug.id)

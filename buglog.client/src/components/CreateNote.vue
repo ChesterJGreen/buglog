@@ -54,8 +54,6 @@ export default {
       async createNote() {
         try {
           state.newNote.bugId = route.params.id
-          console.log(state.newNote.bugId)
-          console.log(props.bug.id)
           const newNote = await notesService.createNote(state.newNote)
           state.newNote = {}
           Pop.toast('Note Created', 'success')

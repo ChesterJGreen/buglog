@@ -78,8 +78,6 @@ export default {
       bugs: computed(() => AppState.bugs),
       async editBug() {
         try {
-          console.log(state.bug)
-          console.log(route.params.id)
           state.bug.id = route.params.id
           const newBug = await bugsService.editBug(state.bug)
           $('#edit-bug-modal').modal('toggle')

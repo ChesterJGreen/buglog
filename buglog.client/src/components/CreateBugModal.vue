@@ -62,7 +62,6 @@ export default {
       bugs: computed(() => AppState.bugs),
       async createBug() {
         try {
-          console.log(state.rawBug)
           const newBug = await bugsService.createBug(state.rawBug)
           state.rawBug = {}
           Pop.toast('Bug Created', 'success')
