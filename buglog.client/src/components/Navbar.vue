@@ -1,10 +1,11 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark nav-bg border-bottom">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <img
+          class="rounded-pill"
           alt="logo"
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfO7vN0AmUnwVHTR-lhEE2ZX4yboJwgRvJhw&usqp=CAU"
+          src="../assets/img/bug-logo.gif"
           height="45"
           title="Home"
         />
@@ -24,17 +25,12 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link :to="{ name: 'Home' }" class="nav-link">
+          <router-link :to="{ name: 'Home' }" class=" text" title="Home Page">
             BugLog
           </router-link>
         </li>
-        <li class="nav-item">
-          <router-link :to="{ name: 'About' }" class="nav-link">
-            About
-          </router-link>
-        </li>
       </ul>
-      <span class="navbar-text">
+      <span class="text">
         <button
           class="btn btn-outline-primary text-uppercase"
           @click="login"
@@ -52,7 +48,7 @@
               :src="user.picture"
               alt="user photo"
               height="40"
-              class="rounded"
+              class="rounded-pill border border-light"
             />
             <span class="mx-3">{{ user.name }}</span>
           </div>
@@ -123,5 +119,26 @@ a:hover {
 }
 .nav-item .nav-link.router-link-exact-active{
   color: var(--primary);
+}
+.nav-bg{
+ background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(11,17,128,1) 50%, rgba(255,22,22,1) 100%);;
+}
+hr {width: 98% ;margin-left: auto;margin-right: auto;height: 1px; opacity: 0.1;}
+.text{
+  color: white;
+}
+  :hover{
+  text-shadow: 1px 1px 2px rgb(11, 189, 212),
+  0 0 5px rgb(247, 241, 241),
+    0 0 5px rgb(127, 197, 14);
+  cursor: pointer;
+  }
+.textr {
+  color: rgb(255, 255, 255);
+text-shadow: -1px 1px 12px #161803,
+1px 1px 2px #161803,
+       1px -1px 2px #161803,
+      -1px -1px 2px #161803;
 }
 </style>

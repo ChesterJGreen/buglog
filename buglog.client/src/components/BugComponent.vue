@@ -1,66 +1,65 @@
 <template>
-  <div class="bug-component col-md-12 bg-light px-5">
+  <div class="bug-component col-md-12 px-5">
     <div class="row">
-      <div class="col-md-12 mt-5">
+      <div class="col-md-12">
         <div class="row">
-          <div class="col-md-1 offset-1 py-3">
+          <div class="col-sm-12 col-md-2 offset-1 mr-5 py-4 border rounded mb-5 title-o">
             <h3>
-              Bugs
+              <i class="mdi mdi-spider"></i>BugLog
             </h3>
           </div>
-
-          <div class="col-md-3 offset-7 py-3">
+        </div>
+        <div class="row">
+          <div class=" col-sm-12 col-md-12 py-3">
             <span v-if="account.id">
-              <button class="btn btn-info shadow rounded" type="button" data-target="#create-bug-modal" data-toggle="modal">
+              <button class="btn btn-info shadow rounded action text textr" type="button" data-target="#create-bug-modal" data-toggle="modal">
                 Submit Log
               </button>
             </span>
             <CreateBugModal />
           </div>
-          <div class="col-md-12 bg-warning shadow p-2 mb-3">
-            <div class="row m-0 p-0">
-              <div class="col-md-3 col-sm pb-2">
-                Title
+        </div>
+
+        <div class="col-md-12 d-md-block d-sm-none bg-warning shadow darken-40 border p-4 mb-3">
+          <div class="row m-0 p-0">
+            <div class="col-md-3 col-sm-6 pb-2 pt-2 textr">
+              Title
+            </div>
+            <div class="d-none d-md-block col-md-4 pb-2 pt-2 textr">
+              Reported By
+            </div>
+            <div class="d-none d-md-block col-md-2 d-sm-none  pb-2 pt-2 textr">
+              Last Updated
+            </div>
+            <div class="col-md-3 d-sm-6 mb-3">
+              <div v-if="state.fSwitch===true" class="custom-control custom-switch">
+                <button type="button"
+                        checked
+                        data-toggle="toggle"
+                        class="btn btn-dark text"
+                        id="cswitch"
+                        @click="state.fSwitch=!state.fSwitch"
+                >
+                  Filter out Closed
+                </button>
               </div>
-              <div class="col-md-3 col-sm pb-2">
-                Reported By
+              <div v-else class="custom-control custom-switch">
+                <button type="button"
+                        checked
+                        data-toggle="toggle"
+                        class=" btn btn-dark text"
+                        id="cswitch"
+                        @click="state.fSwitch=!state.fSwitch"
+                >
+                  No Filter
+                </button>
               </div>
-              <div class="col-md-3 col-sm pb-2">
-                Last Updated
-              </div>
-              <div class="col-md-3 col-sm mb-2">
-                <div v-if="state.fSwitch===true" class="custom-control custom-switch">
-                  <button type="button"
-                          checked
-                          data-toggle="toggle"
-                          class="bg-dark "
-                          id="cswitch"
-                          @click="state.fSwitch=!state.fSwitch"
-                  >
-                    Filter out Closed
-                  </button>
-                </div>
-                <div v-else class="custom-control custom-switch">
-                  <button type="button"
-                          checked
-                          data-toggle="toggle"
-                          class="bg-dark "
-                          id="cswitch"
-                          @click="state.fSwitch=!state.fSwitch"
-                  >
-                    No Filter
-                  </button>
-                </div>
-              </div>
-              <div v-if="state.fSwitch===true" class="col-md-12 p-0 border-primary">
-                <BugCard v-for="b in state.bugs" :key="b.id" :bug="b" />
-              </div>
-              <div v-else class="col-md-12 p-0 border-primary">
-                <BugCard v-for="b in state.filteredBugs" :key="b.id" :bug="b" />
-              </div>
-              <!-- <div class="col-md-12 p-0" v-else>
-                <BugCardF v-for="b in state.bugs" :key="b.closed" :bug="b" />
-              </div> -->
+            </div>
+            <div v-if="state.fSwitch===true" class="col-md-12 p-0 border-white rounded">
+              <BugCard v-for="b in state.bugs" :key="b.id" :bug="b" />
+            </div>
+            <div v-else class="col-md-12 p-0 border-white rounded">
+              <BugCard v-for="b in state.filteredBugs" :key="b.id" :bug="b" />
             </div>
           </div>
         </div>
@@ -129,5 +128,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+h3 {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+.title-o{
+  background-color: #8cbeff3a;
+}
+.text:hover {
+  text-shadow: 1px 1px 2px black,
+  0 0 5px rgb(253, 253, 253),
+    0 0 5px rgb(128, 4, 0);
+  cursor: pointer;
+}
+.textr {
+  color: rgb(255, 255, 255);
+text-shadow: -1px 1px 12px #161803,
+1px 1px 2px #161803,
+       1px -1px 2px #161803,
+      -1px -1px 2px #161803;
+}
 </style>

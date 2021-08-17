@@ -2,44 +2,46 @@
   <div class="edit-bug-form row">
     <div class="modal fade" id="edit-bug-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title" title="Edit Bug" value="Edit Bug" id="exampleModalLabel">
-              Edit Bug
-            </h6>
-            <button type="button" class="btn-close btn btn-outline-danger" data-dismiss="modal" aria-label="Close" title="close">
-              X
-            </button>
-          </div>
-          <div class="modal-body">
-            <input
-              class="form-control"
-              type="text"
-              v-model="state.bug.title"
-              id="name"
-              required
-              minlength="4"
-              placeholder="Title of Bug..."
-            >
-            <br>
-            <label>Is this where you enter a label?</label>
-            <textarea
-              class="form-control"
-              id="description"
-              v-model="state.bug.description"
-              rows="5"
-              required
-              minlength="4"
-              placeholder="Description of Bug..."
-            >
+        <form @submit.prevent="editBug">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h6 class="modal-title" title="Edit Bug" value="Edit Bug" id="exampleModalLabel">
+                Edit Bug
+              </h6>
+              <button type="button" class="btn-close btn btn-outline-danger" data-dismiss="modal" aria-label="Close" title="close">
+                <i class="mdi mdi-close"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input
+                class="form-control"
+                type="text"
+                v-model="state.bug.title"
+                id="name"
+                required
+                minlength="4"
+                placeholder="Title of Bug..."
+              >
+              <br>
+              <label>Is this where you enter a label?</label>
+              <textarea
+                class="form-control"
+                id="description"
+                v-model="state.bug.description"
+                rows="5"
+                required
+                minlength="4"
+                placeholder="Description of Bug..."
+              >
           </textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#editBug">
+                Save
+              </button>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="submit" @click="editBug" class="btn btn-primary" data-toggle="modal" data-target="#editBug">
-              Save
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -66,8 +68,8 @@ export default {
     const route = useRoute()
     const state = reactive({
       bug: {
-        title: '',
-        description: '',
+        title: props.bug.title,
+        description: props.bug.description,
         id: props.bug.id
       }
     })

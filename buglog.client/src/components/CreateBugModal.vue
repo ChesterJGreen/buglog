@@ -2,39 +2,45 @@
   <div class="create-bug-form">
     <div class="modal fade" id="create-bug-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Create Bug
-            </h5>
-            <button type="button" class="btn-close btn btn-outline-danger" data-dismiss="modal" aria-label="Close" title="close">
-              X
-            </button>
-          </div>
-          <div class="modal-body">
-            <input
-              class="form-control"
-              type="text"
-              v-model="state.rawBug.title"
-              id="name"
-              placeholder="Name Bug..."
-            >
-            <br>
-            <textarea
-              class="form-control"
-              id="description"
-              v-model="state.rawBug.description"
-              rows="5"
-              placeholder="Description..."
-            >
+        <form @submit.prevent="createBug">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Create Bug
+              </h5>
+              <button type="button" class="btn-close btn btn-outline-danger" data-dismiss="modal" aria-label="Close" title="close">
+                <i class="mdi mdi-close"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <input
+                class="form-control"
+                type="text"
+                v-model="state.rawBug.title"
+                id="name"
+                placeholder="Name Bug..."
+                required
+                minlength="4"
+              >
+              <br>
+              <textarea
+                class="form-control"
+                id="description"
+                v-model="state.rawBug.description"
+                rows="5"
+                placeholder="Description..."
+                required
+                minlength="4"
+              >
           </textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#createBug">
+                Submit Bug
+              </button>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button type="submit" @click="createBug" class="btn btn-primary" data-toggle="modal" data-target="#createBug">
-              Submit Bug
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
