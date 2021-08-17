@@ -34,6 +34,7 @@
 import { reactive } from '@vue/reactivity'
 import { notesService } from '../services/NotesService'
 import Pop from '../utils/Notifier'
+import { useRoute } from 'vue-router'
 export default {
   name: 'CreateNote',
   props: {
@@ -44,6 +45,7 @@ export default {
   },
 
   setup(props) {
+    const route = useRoute()
     const state = reactive({
       newNote: {}
     })
@@ -51,7 +53,9 @@ export default {
       state,
       async createNote() {
         try {
-          state.newNote.bugId = props.bug.id
+          state.newNote.bugId = route.params.id
+          console.log(state.newNote.bugId)
+          console.log(props.bug.id)
           const newNote = await notesService.createNote(state.newNote)
           state.newNote = {}
           Pop.toast('Note Created', 'success')

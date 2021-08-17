@@ -21,11 +21,12 @@
             {{ note.body }}
             <br>
             <br>
+
             {{ new Date(note.createdAt).toLocaleString() }}
           </div>
-          <div class="col-md-2 text-right bg-white darken-10">
-            <button class="btn btn-outline-primary" title="delete" @click="destroyNote(note.id)">
-              X
+          <div class="col-md-2 pt-2 text-right bg-white darken-10" v-if="account.id === note.creatorId">
+            <button class="btn btn-outline-primary p-1" title="delete" @click="destroyNote(note.id)">
+              <i class="mdi mdi-delete mdi-24px"></i>
             </button>
           </div>
         </div>
@@ -84,7 +85,7 @@ export default {
               await notesService.destroyNote(id)
               Swal.fire(
                 'Deleted!',
-                'Your file has been deleted.',
+                'Your note has been deleted.',
                 'success'
               )
             }

@@ -12,7 +12,6 @@
             </button>
           </div>
           <div class="modal-body">
-            <!-- VModel -->
             <input
               class="form-control"
               type="text"
@@ -48,6 +47,7 @@ import { bugsService } from '../services/BugsService'
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { useRouter } from 'vue-router'
+import $ from 'jquery'
 export default {
   name: 'CreateBugModal',
   setup() {
@@ -66,7 +66,7 @@ export default {
           const newBug = await bugsService.createBug(state.rawBug)
           state.rawBug = {}
           Pop.toast('Bug Created', 'success')
-          router.push({ name: 'BugFocusPage', params: { id: newBug.id } })
+          $('#create-bug-modal').modal('toggle')
         } catch (error) {
           Pop.toast(error, 'error')
         }

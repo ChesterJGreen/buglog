@@ -4,14 +4,14 @@
       <div class="col-md-12 px-5 pt-5">
         <div class="row" id="bug-detail-change">
           <div v-if="bug" class="content col-md-12 border ">
-            <!-- <BugDetails :bug="bug" /> -->
+            <BugDetails :bug="bug" />
           </div>
         </div>
       </div>
     </div>
     <div class="row m-0 p-0">
       <div v-if="bug" class="content col-md-12 border ">
-        <!-- <NotesThread :bug="bug" /> -->
+        <NotesThread :bug="bug" />
       </div>
     </div>
   </div>

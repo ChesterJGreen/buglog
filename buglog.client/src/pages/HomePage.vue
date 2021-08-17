@@ -5,10 +5,18 @@
 </template>
 
 <script>
+import { computed } from '@vue/runtime-core'
 import BugComponent from '../components/BugComponent.vue'
+import { AppState } from '../AppState'
 export default {
   components: { BugComponent },
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    return {
+      bugs: computed(() => AppState.bugs),
+      notes: computed(() => AppState.notes)
+    }
+  }
 }
 </script>
 

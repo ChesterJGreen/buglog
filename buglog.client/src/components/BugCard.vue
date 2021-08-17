@@ -1,8 +1,8 @@
 <template>
   <div class="row m-0 bg-light border-bottom border-secondary">
     <div class="col-md-12 m-0 p-2 bg-blue lighten-40 text-wrap" style="width: 6rem;">
-      <router-link :to="{ name: 'BugDetailsPage', params: {id: bug.id}}" class="creator d-flex align-middle">
-        <div class="col-md-3 d-flex align-middle  ">
+      <router-link :to="{ name: 'BugDetailsPage', params: {id: bug.id}}" class="creator d-flex">
+        <div class="col-md-3 ">
           <span>
             {{ bug.title }}
           </span>
@@ -20,12 +20,12 @@
         <div class="col-md-3 ">
           <span v-if="bug.closed===true">
             Closed
-            <i class="mdi mdi-spider mdi-36px text-red">
+            <i class="mdi mdi-spider mdi-36px text-red darken-10">
             </i>
           </span>
           <span v-else>
             Open
-            <i class="mdi mdi-spider mdi-36px text-green"></i>
+            <i class="mdi mdi-spider mdi-36px text-green lighten-10"></i>
           </span>
         </div>
       </router-link>

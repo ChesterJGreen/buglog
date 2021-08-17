@@ -1,38 +1,42 @@
 <template>
-  <div class="create-bug-form">
-    <div class="modal fade" id="create-bug-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="edit-bug-form row">
+    <div class="modal fade" id="edit-bug-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              Create Bug
-            </h5>
+            <h6 class="modal-title" title="Edit Bug" value="Edit Bug" id="exampleModalLabel">
+              Edit Bug
+            </h6>
             <button type="button" class="btn-close btn btn-outline-danger" data-dismiss="modal" aria-label="Close" title="close">
               X
             </button>
           </div>
           <div class="modal-body">
-            <!-- VModel -->
             <input
               class="form-control"
               type="text"
-              v-model="state.rawBug.title"
+              v-model="state.bug.title"
               id="name"
-              placeholder="Name Bug..."
+              required
+              minlength="4"
+              placeholder="Title of Bug..."
             >
             <br>
+            <label>Is this where you enter a label?</label>
             <textarea
               class="form-control"
               id="description"
-              v-model="state.rawBug.description"
+              v-model="state.bug.description"
               rows="5"
-              placeholder="Description..."
+              required
+              minlength="4"
+              placeholder="Description of Bug..."
             >
           </textarea>
           </div>
           <div class="modal-footer">
-            <button type="submit" @click="createBug" class="btn btn-primary" data-toggle="modal" data-target="#createBug">
-              Submit Bug
+            <button type="submit" @click="editBug" class="btn btn-primary" data-toggle="modal" data-target="#editBug">
+              Save
             </button>
           </div>
         </div>
@@ -47,9 +51,10 @@ import Pop from '../utils/Notifier'
 import { bugsService } from '../services/BugsService'
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import $ from 'jquery'
 export default {
-  name: 'CreateBugModal',
+  name: 'EditBugModal',
   props: {
     bug: {
       type: Object,
@@ -58,8 +63,13 @@ export default {
   },
   setup(props) {
     const router = useRouter()
+    const route = useRoute()
     const state = reactive({
-      rawBug: {}
+      bug: {
+        title: '',
+        description: '',
+        id: props.bug.id
+      }
     })
     return {
       state,
@@ -68,10 +78,13 @@ export default {
       bugs: computed(() => AppState.bugs),
       async editBug() {
         try {
-          console.log(props.bug)
-          const newBug = await bugsService.editBug(props.bug)
-          Pop.toast('Bug Created', 'success')
-          router.push({ name: 'BugFocusPage', params: { id: newBug.id } })
+          console.log(state.bug)
+          console.log(route.params.id)
+          state.bug.id = route.params.id
+          const newBug = await bugsService.editBug(state.bug)
+          $('#edit-bug-modal').modal('toggle')
+          Pop.toast('Bug Edited', 'success')
+          return newBug
         } catch (error) {
           Pop.toast(error, 'error')
         }

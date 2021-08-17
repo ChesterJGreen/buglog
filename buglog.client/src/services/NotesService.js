@@ -23,7 +23,9 @@ class NotesService {
   }
 
   async destroyNote(id) {
-
+    await api.delete('api/notes/' + id)
+    const AllNotes = AppState.notes
+    AppState.notes = AllNotes.filter(n => n.id !== id)
   }
 }
 

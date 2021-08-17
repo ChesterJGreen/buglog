@@ -15,9 +15,9 @@
         </div>
       </div>
       <div class="col-md-12 bg-primary lighten-10 px-5 borderb py-3">
-        <span class="text-right action" v-if="bug.closed===false" title="Close Out Bug" @click="destroyBug(bug.id)">
+        <span class="text-right action" v-if="bug.closed===false && account.id === bug.creatorId" title="Close Out Bug" @click="destroyBug(bug)">
           <h3>
-            X
+            <button class="btn btn-outline btn-light p-1"><i class="mdi mdi-delete mdi-24px"></i></button>
           </h3>
         </span>
         <div class="row border border-">
@@ -25,17 +25,17 @@
             {{ bug.description }}
           </div>
           <div class="col-md-2 px-4 py-3 bg-light darken-5" v-if="bug.closed===true">
-            Closed <i class="mdi mdi-spider mdi-48px text-red">
+            Closed <i class="mdi mdi-spider mdi-48px text-red darken-10">
             </i>
           </div>
           <div class="col-md-2 px-4 py-3 bg-light darken-5" v-else>
-            Open<br> <i class="mdi mdi-spider mdi-48px text-green">
+            Open<br> <i class="mdi mdi-spider mdi-48px text-green lighten-10">
             </i>
           </div>
         </div>
         <div class="row bg-light darken-15">
           <div class="col-md-3 d-flex py-2 ">
-            <img class="px-2" :src="bug?.creator.picture" height="25">
+            <img class="px-2" :src="bug.creator?.picture" height="25">
             {{ bug.creator?.name }}
           </div>
           <div class="col-md-4 offset-5 py-2">
@@ -50,8 +50,11 @@
 <script>
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
-import { api } from "../services/AxiosService"
-import { bugsService } from "../services/BugsService"
+import { bugsService } from '../services/BugsService'
+import Swal from 'sweetalert2'
+import Pop from '../utils/Notifier'
+import { useRoute } from 'vue-router'
+import { logger } from '../utils/Logger'
 export default {
   name: 'Component',
   props: {
@@ -61,16 +64,19 @@ export default {
     }
   },
   setup(props) {
+    const route = useRoute()
     return {
+
       updatedDate: computed(() => {
         const d = new Date(props.bug.updatedAt)
         return new Intl.DateTimeFormat('en-US').format(d)
       }),
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
-      async destroyBug(){
+      bugs: computed(() => AppState.bugs),
+      async destroyBug(bug) {
         try {
-      await Swal.fire({
+          await Swal.fire({
             title: 'Are you sure you want to close out this bug?',
             text: "You won't be able to revert this!",
             icon: 'warning',
@@ -80,9 +86,14 @@ export default {
             confirmButtonText: 'Yes, close it!'
           }).then(async(result) => {
             if (result.isConfirmed) {
-              await bugsService.destroyBug(id)
+              logger.log('object ', bug)
+              logger.log('creator ', bug.creatorId)
+              logger.log('user', this.user.id)
+              logger.log('account', this.account.id)
+
+              await bugsService.destroyBug(bug)
               Swal.fire(
-                'Deleted!',
+                'Closed!',
                 'Your bug has been closed.',
                 'success'
               )
@@ -90,10 +101,11 @@ export default {
           })
         } catch (error) {
           Pop.toast(error, 'error')
-
+        }
+      },
+      components: {}
     }
-  },
-  components: {}
+  }
 }
 </script>
 
