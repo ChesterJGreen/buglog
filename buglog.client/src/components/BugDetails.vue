@@ -9,7 +9,7 @@
             </h4>
           </div>
           <div class="col-md-2 offset-4 mt-2 pt-2" v-if="account.id === bug.creatorId && bug.closed===false">
-            <button class="btn btn-outline-dark textr" data-target="#edit-bug-modal" data-toggle="modal">
+            <button class="btn btn-dark textr" data-target="#edit-bug-modal" data-toggle="modal">
               edit
             </button>
             <EditBugModal :bug="bug" />
