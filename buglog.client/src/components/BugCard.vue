@@ -81,8 +81,8 @@ a {
 }
 hr {width: 98% ;margin-left: auto;margin-right: auto;height: 1px; opacity: 0.1;}
 .procard:hover{
-  color: #0875db65;
-  transform: scale(1.02);
+  color: #0875db;
+  transform: scale(1.01);
   cursor: pointer;
 }
 h3 {
